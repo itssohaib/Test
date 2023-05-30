@@ -1,0 +1,42 @@
+name: Exploit Automation Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  exploit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest --cov-report term --cov=app tests/
+
+      - name: Run Playwright exploits
+        run: python exploit_playwright.py
+
+      - name: Build CLI API
+        run: python build_cli_api.py
+
+      - name: Deploy to GitHub Pages
+        run: |
+          # Replace the commands with your deployment steps
+
+      - name: Create Swagger-driven API
+        run: python create_swagger_api.py
+
+      - name: Commit and push changes
+        run: |
+          # Replace the commands with your commit and push steps
